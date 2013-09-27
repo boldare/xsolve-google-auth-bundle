@@ -115,8 +115,4 @@ class ConfigurationValueObject {
         return $this->successAuthorizationRedirectUrl;
     }
 
-
-
-
-
 }
