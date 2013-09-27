@@ -1,0 +1,14 @@
+{
+    "name": "xsolve-pl/xsolve-google-auth-bundle",
+    "description": "XSolve Google Auth Bundle to provide signing in to FOSUserBundle with Google Auth",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": { "Xsolve\\GoogleAuthBundle": "" }
+    },
+    "require": {
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "bitgandtter/google-api": "dev-master",
+        "bitgandtter/google-bundle": "dev-master"
+    },
+    "target-dir" : "Xsolve/GoogleAuthBundle"
+}
