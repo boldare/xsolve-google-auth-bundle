@@ -6,15 +6,23 @@
 
     <parameters>
         <parameter key="xsolve.google.authorization.manager.class">Xsolve\GoogleAuthBundle\Service\GoogleAuthorizationManager</parameter>
+        <parameter key="xsolve.google.client.builder.class">Xsolve\GoogleAuthBundle\Builder\GoogleClientBuilder</parameter>
+        <parameter key="xsolve.google.configuration.class">Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject</parameter>
     </parameters>
 
     <services>
+        <service id="xsolve.google.configuration" class="%xsolve.google.configuration.class%">
+            <argument>%xsolve_google_auth%</argument>
+        </service>
+        <service id="xsolve.google.client.builder" class="%xsolve.google.client.builder.class%">
+            <argument type="service" id="xsolve.google.configuration" />
+        </service>
         <service id="xsolve.google.authorization.manager" class="%xsolve.google.authorization.manager.class%">
             <argument type="service" id="fos_user.user_manager" />
             <argument type="service" id="fos_user.security.login_manager" />
-            <argument>%xsolve_google_auth%</argument>
+            <argument type="service" id="xsolve.google.client.builder" />
+            <argument type="service" id="xsolve.google.configuration" />
             <argument>%fos_user.firewall_name%</argument>
-
         </service>
     </services>
 </container>

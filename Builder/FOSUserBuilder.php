@@ -4,6 +4,7 @@ namespace Xsolve\GoogleAuthBundle\Builder;
 
 use FOS\UserBundle\Doctrine\UserManager;
 use Symfony\Component\DependencyInjection\Container;
+use FOS\UserBundle\Model\UserInterface;
 
 class FOSUserBuilder
 {
@@ -37,7 +38,7 @@ class FOSUserBuilder
         $user->setUsername($googleAuthUser['email']);
         $user->setEnabled(1);
         $user->setPassword(time());
-        $user->setRoles(array('ROLE_USER'));
+        $user->setRoles(array(UserInterface::ROLE_DEFAULT));
 
         return $user;
     }

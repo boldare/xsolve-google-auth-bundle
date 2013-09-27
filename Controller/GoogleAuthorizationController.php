@@ -22,17 +22,21 @@ class GoogleAuthorizationController extends Controller
     public function authorizationAction(Request $request)
     {
         $googleAuthConfiguration = $this->container->getParameter('xsolve_google_auth');
+        $logger                  = $this->get('logger');
+        $authorizationManager    = $this->get('xsolve.google.authorization.manager');
 
         try {
-            $authorizationManager = $this->get('xsolve.google.authorization.manager');
-            $authorizationManager->authorizateUser($request);
+            $user = $authorizationManager->authorizeUser($request);
+            $logger->addInfo(sprintf("User %s singed in", $user->getUsername()));
 
             return $this->redirect($this->generateUrl($googleAuthConfiguration['success_authorization_redirect_url']));
         } catch (FailureAuthorizedException $e) {
 
+            $logger->addAlert("User authorization failed ");
             return $this->redirect($this->generateUrl($googleAuthConfiguration['failure_authorization_redirect_url']));
         } catch (Exception $e) {
 
+            $logger->addInfo("User try to sign in");
             return $this->redirect($authorizationManager->getAuthUrl());
         }
     }

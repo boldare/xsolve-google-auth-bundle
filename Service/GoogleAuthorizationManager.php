@@ -11,6 +11,7 @@ use Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException;
 use Xsolve\GoogleAuthBundle\Exception\FailureAuthorizedException;
 use Xsolve\GoogleAuthBundle\Builder\FOSUserBuilder;
 use Xsolve\GoogleAuthBundle\Builder\GoogleClientBuilder;
+use Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject;
 
 class GoogleAuthorizationManager
 {
@@ -28,17 +29,11 @@ class GoogleAuthorizationManager
      * @var string
      */
     private $providerKey;
-    
+
     /**
-     *
-     * @var array
-     * @example array(
-     *    client_id,
-     *    client_secret,
-     *    redirect_uri,
-     *    dev_key );
+     * @var \Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject
      */
-    private $configArray;
+    private $configuration;
 
     /**
      * @var Client
@@ -48,21 +43,29 @@ class GoogleAuthorizationManager
     /**
      * @param EntityManager $em
      * @param LoginManager $fosLoginManager
-     * @param array $configArray
+     * @param ConfigurationValueObject $configArray
      * @param $providerKey
      */
-    public function __construct(UserManager $userManager, LoginManager $fosLoginManager, array $configArray, $providerKey)
+    public function __construct(UserManager $userManager,
+                                LoginManager $fosLoginManager,
+                                GoogleClientBuilder $googleClientBuilder,
+                                ConfigurationValueObject $configuration,
+                                $providerKey)
     {
-        $this->userManager = $userManager;
-        $this->fosLoginManager = $fosLoginManager;
-        $this->configArray = $configArray;
-        $this->providerKey = $providerKey;
-
-        $googleClientBuilder = new GoogleClientBuilder();
-        $this->client = $googleClientBuilder->build($this->configArray);
+        $this->userManager      = $userManager;
+        $this->fosLoginManager  = $fosLoginManager;
+        $this->configuration    = $configuration;
+        $this->providerKey      = $providerKey;
+        $this->client           = $googleClientBuilder->getClient();
     }
 
-    public function authorizateUser(Request $request) 
+    /**
+     * @param Request $request
+     * @return \FOS\UserBundle\Model\UserInterface
+     * @throws \Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException
+     * @throws \Xsolve\GoogleAuthBundle\Exception\FailureAuthorizedException
+     */
+    public function authorizeUser(Request $request)
     {
         $oauth2 = new apiOauth2Service($this->getClient());
 
@@ -76,26 +79,26 @@ class GoogleAuthorizationManager
         $user = $this->userManager->findUserByEmail($googleUser['email']);
 
         if (null == $user) {
-            if ( ! $this->configArray['autoregistration']) {
+            if ( ! $this->configuration->getAutoregistration()) {
 
                 throw new FailureAuthorizedException();
             }
 
-            $FOSUserBuilder = new FOSUserBuilder($this->userManager);
-            $user = $FOSUserBuilder->build($googleUser);
-
-            $availableDomains = $this->configArray['autoregistration_domains'];
+            $FOSUserBuilder   = new FOSUserBuilder($this->userManager);
+            $user             = $FOSUserBuilder->build($googleUser);
+            $availableDomains = $this->configuration->getAutoregistrationDomains();
 
             if (count($availableDomains) > 0 && !in_array(substr($user->getEmail(), strpos($user->getEmail(),'@')+1), $availableDomains)) {
 
                 throw new FailureAuthorizedException("XSolve Google Auth couldn't authorize user. User's domain is not allowed");
             }
-
         }
         $user->setLastLogin(new \DateTime());
         $this->userManager->updateUser($user);
 
         $this->fosLoginManager->loginUser($this->providerKey, $user);
+
+        return $user;
     }
 
     public function getAuthUrl()
