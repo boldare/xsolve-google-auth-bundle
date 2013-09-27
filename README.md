@@ -34,7 +34,15 @@ It includes:
         );
     }
 
-5) Register your service in https://code.google.com/apis/console/b/0/ an configure parameters.yml and add
+5) Add to routing.yml 
+
+    xsolve_google_auth:
+        resource: "@XsolveGoogleAuthBundle/Controller/"
+            type:     annotation
+                prefix:   /
+
+
+6) Register your service in https://code.google.com/apis/console/b/0/ an configure parameters.yml and add
 
     xsolve_google_auth:
         name: Xsolve test application
@@ -49,7 +57,7 @@ It includes:
         autoregistration: false
         autoregistration_domains: []
 
-6) Add access controls to security.yml
+7) Add access controls to security.yml
 
     access_control:
         - { path: ^/oauth2callback, role: IS_AUTHENTICATED_ANONYMOUSLY }
