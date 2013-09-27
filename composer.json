@@ -7,8 +7,7 @@
     },
     "require": {
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "bitgandtter/google-api": "dev-master",
-        "bitgandtter/google-bundle": "dev-master"
+        "evert/google-api-php-client": "dev-master"
     },
     "target-dir" : "Xsolve/GoogleAuthBundle"
 }
