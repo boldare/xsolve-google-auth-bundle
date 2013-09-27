@@ -3,6 +3,7 @@
 namespace Xsolve\GoogleAuthBundle\Builder;
 
 use FOS\UserBundle\Doctrine\UserManager;
+use Symfony\Component\DependencyInjection\Container;
 
 class FOSUserBuilder {
 
@@ -23,7 +24,7 @@ class FOSUserBuilder {
         $user = $this->userManager->createUser();
 
         foreach ($googleAuthUser as $key => $value) {
-            $methodName = "set" . $this->dashesToCamelCase($key);
+            $methodName = "set" . Container::camelize($key);
             if (method_exists($user, $methodName)) {
                 $user->$methodName($value);
             }
@@ -36,18 +37,6 @@ class FOSUserBuilder {
         $user->setRoles(array('ROLE_USER'));
 
         return $user;
-    }
-
-    private function dashesToCamelCase($string, $capitalizeFirstCharacter = true)
-    {
-
-        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
-
-        if (!$capitalizeFirstCharacter) {
-            $str[0] = strtolower($str[0]);
-        }
-
-        return $str;
     }
 }
 
