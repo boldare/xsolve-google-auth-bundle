@@ -50,3 +50,4 @@ class FOSUserBuilder {
         return $str;
     }
 }
+
