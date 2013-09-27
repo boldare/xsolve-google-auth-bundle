@@ -5,14 +5,16 @@ namespace Xsolve\GoogleAuthBundle\Builder;
 use FOS\UserBundle\Doctrine\UserManager;
 use Symfony\Component\DependencyInjection\Container;
 
-class FOSUserBuilder {
+class FOSUserBuilder
+{
 
     /**
      * @var \FOS\UserBundle\Doctrine\UserManager
      */
     protected $userManager;
 
-    public function __construct(UserManager $userManager) {
+    public function __construct(UserManager $userManager)
+    {
         $this->userManager = $userManager;
     }
 
@@ -20,7 +22,8 @@ class FOSUserBuilder {
      * @param array $googleAuthUser
      * @return \FOS\UserBundle\Model\UserInterface
      */
-    public function build($googleAuthUser) {
+    public function build($googleAuthUser)
+    {
         $user = $this->userManager->createUser();
 
         foreach ($googleAuthUser as $key => $value) {
@@ -39,4 +42,3 @@ class FOSUserBuilder {
         return $user;
     }
 }
-

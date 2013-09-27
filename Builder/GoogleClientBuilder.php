@@ -4,13 +4,15 @@ namespace Xsolve\GoogleAuthBundle\Builder;
 
 use GoogleApi\Client;
 
-class GoogleClientBuilder {
+class GoogleClientBuilder
+{
 
     /**
      * @param array $configArray
      * @return Client
      */
-    public function build(array $configArray) {
+    public function build(array $configArray)
+    {
         $client = new Client();
 
         $client->setApplicationName($configArray['name']);
