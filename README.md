@@ -34,7 +34,15 @@ It includes:
         );
     }
 
-5) Register your service in https://code.google.com/apis/console/b/0/ an configure parameters.yml and add
+5) Add to routing.yml 
+
+    xsolve_google_auth:
+        resource: "@XsolveGoogleAuthBundle/Controller/"
+            type:     annotation
+                prefix:   /
+
+
+6) Register your service in https://code.google.com/apis/console/b/0/ an configure parameters.yml and add
 
     xsolve_google_auth:
         name: Xsolve test application
@@ -46,10 +54,14 @@ It includes:
         success_authorization_redirect_url: _welcome
         failure_authorization_redirect_url: _welcome
 
+        scopes:
+           -  profile
+           -  email
+
         autoregistration: false
         autoregistration_domains: []
 
-6) Add access controls to security.yml
+7) Add access controls to security.yml
 
     access_control:
         - { path: ^/oauth2callback, role: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -71,10 +83,26 @@ Configuration can be adjusted in app/config/config.yml
         redirect_uri: "http://testapp.xsolve.pl/oauth2callback" #redirect uri of application from google console
         dev_key: xsolvetestapplication #your developmnent's application name from google console
 
+        scopes: #data which application needs from google API
+           -  profile
+           -  email
+
         success_authorization_redirect_url: _welcome #url key inside Symfony where user should be redirected after successful sign in
         failure_authorization_redirect_url: _welcome #url key inside Symfony where user should be redirected after failure sign in
 
         autoregistration: false #true|false - if false than user will be registered into system automaticaly
         autoregistration_domains:  #array may be empty. If autoregistration is true you can allow to register users only from selected domains
            - xsolve.pl
+
+
+## Add link to Twig template
+
+Add this link to your Twig template to force login action with Google OAuth 2.0 :
+
+    <a href="{{ path('xsolve_googleauth_googleauthorization_authorization') }}">Login with Google</a>
+
+or
+
+    <a href="{{ path('xsolve_googleauth_googleauthorization_authorization_1') }}">Login with Google</a>
+
 
