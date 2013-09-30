@@ -15,7 +15,8 @@ class GoogleClientBuilder
     /**
      * @param ConfigurationValueObject $configuration
      */
-    public function __construct(ConfigurationValueObject $configuration) {
+    public function __construct(ConfigurationValueObject $configuration)
+    {
         $this->client = $this->build($configuration);
     }
 

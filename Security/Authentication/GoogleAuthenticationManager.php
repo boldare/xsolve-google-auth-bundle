@@ -42,7 +42,7 @@ class GoogleAuthenticationManager implements GoogleAuthenticationInterface
             throw new NotAuthorizedException("There's missing authorization code");
         }
 
-        $FOSUserBuilder = new FOSUserBuilder($this->userManager);
+        $fosUserBuilder = new FOSUserBuilder($this->userManager);
         $oauth2         = new apiOauth2Service($this->getClient());
 
         try {
@@ -52,7 +52,7 @@ class GoogleAuthenticationManager implements GoogleAuthenticationInterface
             throw new NotAuthorizedException(401, "XSolve Google Auth couldn't authorize user");
         }
 
-        return $FOSUserBuilder->build($oauth2->userinfo->get());
+        return $fosUserBuilder->build($oauth2->userinfo->get());
     }
 
     public function getAuthUrl()

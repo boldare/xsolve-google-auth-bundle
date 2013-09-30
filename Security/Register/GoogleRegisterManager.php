@@ -25,7 +25,7 @@ class GoogleRegisterManager implements GoogleRegisterInterface
 
         return $this->configurationValueObject->getAutoregistration() &&
             (count($availableDomains) == 0 ||
-             (count($availableDomains) > 0 && in_array(substr($user->getEmail(), strpos($user->getEmail(),'@')+1), $availableDomains))
+             (count($availableDomains) > 0 && in_array(substr($user->getEmail(), strpos($user->getEmail(), '@')+1), $availableDomains))
             );
     }
 

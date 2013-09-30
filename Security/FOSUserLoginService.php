@@ -6,15 +6,22 @@ use FOS\UserBundle\Doctrine\UserManager;
 use FOS\UserBundle\Security\LoginManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class FOSUserLoginService {
+class FOSUserLoginService
+{
 
     /**
      * @var \FOS\UserBundle\Doctrine\UserManager
      */
     protected $userManager;
 
+    /**
+     * @var \FOS\UserBundle\Security\LoginManager
+     */
     protected $loginManager;
 
+    /**
+     * @var string
+     */
     protected $providerKey;
 
     public function __construct(UserManager $userManager, LoginManager $loginManager, $providerKey)

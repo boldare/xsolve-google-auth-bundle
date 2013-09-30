@@ -5,7 +5,8 @@ namespace Xsolve\GoogleAuthBundle\ValueObject;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\DependencyInjection\Container;
 
-class ConfigurationValueObject {
+class ConfigurationValueObject
+{
 
     protected $name;
 
@@ -27,7 +28,8 @@ class ConfigurationValueObject {
 
     protected $scopes = array('email', 'profile');
 
-    public function __construct(array $configurationOptions) {
+    public function __construct(array $configurationOptions)
+    {
         foreach ($configurationOptions as $key => $value) {
             $this->{"set" . Container::camelize($key)}($value);
         }
