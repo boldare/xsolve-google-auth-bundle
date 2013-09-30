@@ -37,6 +37,7 @@ class GoogleClientBuilder
         $client->setClientSecret($configuration->getClientSecret());
         $client->setRedirectUri($configuration->getRedirectUri());
         $client->setDeveloperKey($configuration->getDevKey());
+        $client->setScopes($configuration->getScopes());
 
         return $client;
     }

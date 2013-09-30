@@ -8,16 +8,24 @@ use Symfony\Component\DependencyInjection\Container;
 class ConfigurationValueObject {
 
     protected $name;
+
     protected $clientId;
+
     protected $clientSecret;
+
     protected $redirectUri;
+
     protected $devKey;
 
     protected $successAuthorizationRedirectUrl = "_welcome";
+
     protected $failureAuthorizationRedirectUrl = "_welcome";
 
     protected $autoregistration = false;
-    protected $autoregistrationDomains;
+
+    protected $autoregistrationDomains = array();
+
+    protected $scopes = array('email', 'profile');
 
     public function __construct(array $configurationOptions) {
         foreach ($configurationOptions as $key => $value) {
@@ -113,6 +121,16 @@ class ConfigurationValueObject {
     public function getSuccessAuthorizationRedirectUrl()
     {
         return $this->successAuthorizationRedirectUrl;
+    }
+
+    public function setScopes($scopes)
+    {
+        $this->scopes = $scopes;
+    }
+
+    public function getScopes()
+    {
+        return $this->scopes;
     }
 
 }

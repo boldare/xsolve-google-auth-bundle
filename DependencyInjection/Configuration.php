@@ -21,6 +21,5 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('xsolve_google_auth');
 
         return $treeBuilder;
-
     }
 }
