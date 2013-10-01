@@ -5,7 +5,7 @@ This bundle allows user to sign in via Google Auth 2.0 API to FOSUserBundle.
 It includes:
 
 * Google API integration
-* Creating new user if it's necessary
+* Creating new user when it's necessary
 * Signing in
 
 # Installation
