@@ -2,12 +2,12 @@
 
 namespace Xsolve\GoogleAuthBundle\Exception;
 
-use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
+class NotAuthorizedException extends HttpException
+{
 
-class NotAuthorizedException extends Exception {
-
-  protected $message = "XSolve Google Auth couldn't authorize user";
-  protected $code = 401;
+    protected $message = "XSolve Google Auth couldn't authorize user";
+    protected $code = 401;
 
 }

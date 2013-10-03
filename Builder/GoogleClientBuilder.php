@@ -3,21 +3,42 @@
 namespace Xsolve\GoogleAuthBundle\Builder;
 
 use GoogleApi\Client;
+use Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject;
 
-class GoogleClientBuilder {
+class GoogleClientBuilder
+{
+    /**
+     * @var \GoogleApi\Client
+     */
+    protected $client;
 
     /**
-     * @param array $configArray
+     * @param ConfigurationValueObject $configuration
+     */
+    public function __construct(ConfigurationValueObject $configuration)
+    {
+        $this->client = $this->build($configuration);
+    }
+
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param ConfigurationValueObject $configuration
      * @return Client
      */
-    public function build(array $configArray) {
+    protected function build(ConfigurationValueObject $configuration)
+    {
         $client = new Client();
 
-        $client->setApplicationName($configArray['name']);
-        $client->setClientId($configArray['client_id']);
-        $client->setClientSecret($configArray['client_secret']);
-        $client->setRedirectUri($configArray['redirect_uri']);
-        $client->setDeveloperKey($configArray['dev_key']);
+        $client->setApplicationName($configuration->getName());
+        $client->setClientId($configuration->getClientId());
+        $client->setClientSecret($configuration->getClientSecret());
+        $client->setRedirectUri($configuration->getRedirectUri());
+        $client->setDeveloperKey($configuration->getDevKey());
+        $client->setScopes($configuration->getScopes());
 
         return $client;
     }

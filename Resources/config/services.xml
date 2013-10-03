@@ -6,15 +6,50 @@
 
     <parameters>
         <parameter key="xsolve.google.authorization.manager.class">Xsolve\GoogleAuthBundle\Service\GoogleAuthorizationManager</parameter>
+        <parameter key="xsolve.google.client.builder.class">Xsolve\GoogleAuthBundle\Builder\GoogleClientBuilder</parameter>
+        <parameter key="xsolve.google.authentication.manager.class">Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationManager</parameter>
+        <parameter key="xsolve.google.authorization.manager.class">Xsolve\GoogleAuthBundle\Security\Authorization\GoogleAuthorizationManager</parameter>
+        <parameter key="xsolve.google.register.manager.class">Xsolve\GoogleAuthBundle\Security\Register\GoogleRegisterManager</parameter>
+        <parameter key="xsolve.google.login.manager.class">Xsolve\GoogleAuthBundle\Security\GoogleLoginManager</parameter>
+        <parameter key="xsolve.google.fos.login.service.class">Xsolve\GoogleAuthBundle\Security\FOSUserLoginService</parameter>
+        <parameter key="xsolve.google.configuration.class">Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject</parameter>
     </parameters>
 
     <services>
+        <service id="xsolve.google.configuration" class="%xsolve.google.configuration.class%">
+            <argument>%xsolve_google_auth%</argument>
+        </service>
+
+        <service id="xsolve.google.client.builder" class="%xsolve.google.client.builder.class%">
+            <argument type="service" id="xsolve.google.configuration" />
+        </service>
+
+        <service id="xsolve.google.authentication.manager" class="%xsolve.google.authentication.manager.class%">
+            <argument type="service" id="xsolve.google.client.builder" />
+            <argument type="service" id="fos_user.user_manager" />
+        </service>
+
         <service id="xsolve.google.authorization.manager" class="%xsolve.google.authorization.manager.class%">
             <argument type="service" id="fos_user.user_manager" />
-            <argument type="service" id="fos_user.security.login_manager" />
-            <argument>%xsolve_google_auth%</argument>
-            <argument>%fos_user.firewall_name%</argument>
-
         </service>
+
+        <service id="xsolve.google.register.manager" class="%xsolve.google.register.manager.class%">
+            <argument type="service" id="xsolve.google.configuration" />
+            <argument type="service" id="fos_user.user_manager" />
+        </service>
+
+        <service id="xsolve.google.fos.login.service" class="%xsolve.google.fos.login.service.class%">
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="fos_user.security.login_manager" />
+            <argument>%fos_user.firewall_name%</argument>
+        </service>
+
+        <service id="xsolve.google.login.manager" class="%xsolve.google.login.manager.class%">
+            <argument type="service" id="xsolve.google.authentication.manager" />
+            <argument type="service" id="xsolve.google.authorization.manager" />
+            <argument type="service" id="xsolve.google.register.manager" />
+            <argument type="service" id="xsolve.google.fos.login.service" />
+        </service>
+
     </services>
 </container>

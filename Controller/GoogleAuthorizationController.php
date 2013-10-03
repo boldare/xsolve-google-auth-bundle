@@ -21,19 +21,24 @@ class GoogleAuthorizationController extends Controller
      */
     public function authorizationAction(Request $request)
     {
-        $googleAuthConfiguration = $this->container->getParameter('xsolve_google_auth');
+        $googleAuthConfiguration = $this->get('xsolve.google.configuration');
+        $googleAuthManager       = $this->get('xsolve.google.authentication.manager');
+        $logger                  = $this->get('logger');
+        $googleLoginManager      = $this->get('xsolve.google.login.manager');
 
         try {
-            $authorizationManager = $this->get('xsolve.google.authorization.manager');
-            $authorizationManager->authorizateUser($request);
+            $user = $googleLoginManager->loginUser($request);
+            $logger->addInfo(sprintf("User %s singed in", $user->getUsername()));
 
-            return $this->redirect($this->generateUrl($googleAuthConfiguration['success_authorization_redirect_url']));
+            return $this->redirect($this->generateUrl($googleAuthConfiguration->getSuccessAuthorizationRedirectUrl()));
         } catch (FailureAuthorizedException $e) {
+            $logger->addAlert("User authorization failed ");
 
-            return $this->redirect($this->generateUrl($googleAuthConfiguration['failure_authorization_redirect_url']));
-        } catch (Exception $e) {
+            return $this->redirect($this->generateUrl($googleAuthConfiguration->getFuilureAuthorizationRedirectUrl()));
+        } catch (NotAuthorizedException $e) {
+            $logger->addInfo("User try to sign in");
 
-            return $this->redirect($authorizationManager->getAuthUrl());
+            return $this->redirect($googleAuthManager->getAuthUrl());
         }
     }
 
