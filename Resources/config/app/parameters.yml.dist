@@ -1,0 +1,20 @@
+
+# This file is auto-generated during the composer install
+parameters:
+    xsolve_google_auth:
+        name: Xsolve test application
+        client_id: "442904191088-roetlnkcmhl3pb1nunegehp35s7sf0kn.apps.googleusercontent.com"
+        client_secret: "9L0LN-S6A5ZM8h0GVNP6cRJn"
+        redirect_uri: "http://cas.papi.xsdev.pl/app_dev.php/oauth2callback"
+        dev_key: xsolvetestapplication
+
+        success_authorization_redirect_url: _welcome
+        failure_authorization_redirect_url: _welcome
+        scopes:
+               -  profile
+               -  email
+
+        autoregistration: true
+        autoregistration_domains: [ 'xsolve.pl' ]
+
+

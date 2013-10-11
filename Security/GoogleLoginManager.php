@@ -2,26 +2,28 @@
 
 namespace Xsolve\GoogleAuthBundle\Security;
 
+use Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException;
 use Xsolve\GoogleAuthBundle\Security\LoginManagerInterface;
-use Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationManager;
-use Xsolve\GoogleAuthBundle\Security\Authorization\GoogleAuthorizationManager;
+use Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationInterface;
+use Xsolve\GoogleAuthBundle\Security\Authorization\GoogleAuthorizationInterface;
 use Xsolve\GoogleAuthBundle\Exception\FailureAuthorizedException;
-use Xsolve\GoogleAuthBundle\Security\Register\GoogleRegisterManager;
-use Xsolve\GoogleAuthBundle\Security\FOSUserLoginService;
+use Xsolve\GoogleAuthBundle\Security\Register\GoogleRegisterInterface;
+use Xsolve\GoogleAuthBundle\Security\UserLoginServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class GoogleLoginManager implements LoginManagerInterface
 {
 
     /**
-     * @var Authentication\GoogleAuthenticationManager
+     * @var Authentication\GoogleAuthenticator
      */
-    protected $googleAuthenticationManager;
+    protected $googleAuthenticator;
 
     /**
-    * @var Authorization\GoogleAuthorizationManager
-    */
-    protected $googleAuthorizationManager;
+     * @var Authorization\GoogleAuthorizer
+     */
+    protected $googleAuthorizer;
 
     /**
     * @var Register\GoogleRegisterManager
@@ -33,32 +35,50 @@ class GoogleLoginManager implements LoginManagerInterface
      */
     protected $FOSUserLoginService;
 
-    public function __construct(GoogleAuthenticationManager $googleAuthenticationManager,
-                                GoogleAuthorizationManager  $googleAuthorizationManager,
-                                GoogleRegisterManager       $googleRegisterManager ,
-                                FOSUserLoginService         $FOSUserLoginService )
+    /**
+     * @var \Symfony\Bridge\Monolog\Logger
+     */
+    protected $logger;
+
+    public function __construct(GoogleAuthenticationInterface   $authenticator,
+                                GoogleAuthorizationInterface    $authorizer,
+                                GoogleRegisterInterface         $registerManager ,
+                                UserLoginServiceInterface       $userLoginService,
+                                LoggerInterface                 $logger)
     {
-        $this->googleAuthenticationManager = $googleAuthenticationManager;
-        $this->googleAuthorizationManager  = $googleAuthorizationManager;
-        $this->googleRegisterManager       = $googleRegisterManager;
-        $this->FOSUserLoginService         = $FOSUserLoginService;
+        $this->googleAuthenticator         = $authenticator;
+        $this->googleAuthorizer            = $authorizer;
+        $this->googleRegisterManager       = $registerManager;
+        $this->FOSUserLoginService         = $userLoginService;
+        $this->logger                      = $logger;
     }
 
     public function loginUser(Request $request)
     {
-        $authenticatedUser = $this->googleAuthenticationManager->authenticateUser($request);
+        $authenticatedUser = $this->googleAuthenticator->authenticateUser($request);
 
         try {
-            $user = $this->googleAuthorizationManager->authorizeUser($authenticatedUser);
+            $user = $this->googleAuthorizer->authorizeUser($authenticatedUser);
         } catch (FailureAuthorizedException $e) {
             if ( ! $this->googleRegisterManager->isUserAllowedToRegisterAutomatically($authenticatedUser)) {
+                $this->logger->addAlert("User authorization failed ");
 
                 throw new FailureAuthorizedException("XSolve Google Auth couldn't authorize user. User's domain is not allowed");
             }
 
+            $this->googleRegisterManager->registerUser($authenticatedUser);
+
             $user = $authenticatedUser;
+        } catch (NotAuthorizedException $e) {
+            $this->logger->addInfo("User try to sign in");
+
+            throw $e;
         }
 
-        return $this->FOSUserLoginService->login($user);
+        $user = $this->FOSUserLoginService->login($user);
+
+        $this->logger->addInfo(sprintf("User %s singed in", $user->getUsername()));
+
+        return $user;
     }
 }
