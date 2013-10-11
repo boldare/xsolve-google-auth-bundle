@@ -7,7 +7,7 @@
     },
     "require": {
         "friendsofsymfony/user-bundle": "v1.3.3",
-        "evert/google-api-php-client": "6522ef6b9b089eddf66ef6081db639430da317dc"
+        "evert/google-api-php-client": "dev-master"
     },
     "target-dir" : "Xsolve/GoogleAuthBundle"
 }
