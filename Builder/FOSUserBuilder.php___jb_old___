@@ -40,6 +40,7 @@ class FOSUserBuilder implements UserBuilderInterface
         $user->setUsername($googleAuthUser['email']);
         $user->setEnabled(1);
         $user->setPassword(time());
+        $user->getRoles();
 
         return $user;
     }
