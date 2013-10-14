@@ -25,7 +25,7 @@ class GoogleAuthorizationController extends Controller
 
         $redirectManager->registerRequest($request);
         try {
-            $user = $googleLoginManager->loginUser($request);
+            $googleLoginManager->loginUser($request);
 
             return $this->redirect($redirectManager->getSuccessRedirectUrl());
         } catch (FailureAuthorizedException $e) {

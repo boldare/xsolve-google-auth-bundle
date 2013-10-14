@@ -4,9 +4,7 @@ namespace Xsolve\GoogleAuthBundle\Builder;
 
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\Container;
-use FOS\UserBundle\Model\UserInterface;
 use Xsolve\GoogleAuthBundle\Builder\UserBuilderInterface;
-use Xsolve\GoogleAuthBundle\Security\UserLoginServiceInterface;
 
 class FOSUserBuilder implements UserBuilderInterface
 {
