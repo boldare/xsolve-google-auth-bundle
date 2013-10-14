@@ -6,7 +6,7 @@
         "psr-0": { "Xsolve\\GoogleAuthBundle": "" }
     },
     "require": {
-        "friendsofsymfony/user-bundle": "dev-master",
+        "friendsofsymfony/user-bundle": "v1.3.3",
         "evert/google-api-php-client": "dev-master"
     },
     "target-dir" : "Xsolve/GoogleAuthBundle"

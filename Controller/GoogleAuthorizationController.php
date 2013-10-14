@@ -5,7 +5,6 @@ namespace Xsolve\GoogleAuthBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Exception;
 use Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException;
 use Xsolve\GoogleAuthBundle\Exception\FailureAuthorizedException;
 
@@ -21,24 +20,20 @@ class GoogleAuthorizationController extends Controller
      */
     public function authorizationAction(Request $request)
     {
-        $googleAuthConfiguration = $this->get('xsolve.google.configuration');
-        $googleAuthManager       = $this->get('xsolve.google.authentication.manager');
-        $logger                  = $this->get('logger');
         $googleLoginManager      = $this->get('xsolve.google.login.manager');
+        $redirectManager         = $this->get('xsolve.google.redirect.manager');
 
+        $redirectManager->registerRequest($request);
         try {
             $user = $googleLoginManager->loginUser($request);
-            $logger->addInfo(sprintf("User %s singed in", $user->getUsername()));
 
-            return $this->redirect($this->generateUrl($googleAuthConfiguration->getSuccessAuthorizationRedirectUrl()));
+            return $this->redirect($redirectManager->getSuccessRedirectUrl());
         } catch (FailureAuthorizedException $e) {
-            $logger->addAlert("User authorization failed ");
 
-            return $this->redirect($this->generateUrl($googleAuthConfiguration->getFuilureAuthorizationRedirectUrl()));
+            return $this->redirect($redirectManager->getFailureAuthorizedUrl());
         } catch (NotAuthorizedException $e) {
-            $logger->addInfo("User try to sign in");
 
-            return $this->redirect($googleAuthManager->getAuthUrl());
+            return $this->redirect($redirectManager->getNotAuthorizedUrl());
         }
     }
 

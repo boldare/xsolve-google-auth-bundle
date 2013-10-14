@@ -3,18 +3,18 @@
 namespace Xsolve\GoogleAuthBundle\Security\Authorization;
 
 use Xsolve\GoogleAuthBundle\Security\Authorization\GoogleAuthorizationInterface;
-use FOS\UserBundle\Doctrine\UserManager;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Xsolve\GoogleAuthBundle\Exception\FailureAuthorizedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class GoogleAuthorizationManager implements GoogleAuthorizationInterface
+class GoogleAuthorizer implements GoogleAuthorizationInterface
 {
     /**
     * @var \FOS\UserBundle\Doctrine\UserManager
     */
     protected $userManager;
 
-    public function __construct(UserManager $userManager)
+    public function __construct(UserManagerInterface $userManager)
     {
         $this->userManager = $userManager;
     }

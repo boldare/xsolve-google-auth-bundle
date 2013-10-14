@@ -2,17 +2,13 @@
 
 namespace Xsolve\GoogleAuthBundle\Security;
 
-use Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationManager;
-use Xsolve\GoogleAuthBundle\Security\Authorization\GoogleAuthorizationManager;
-use Xsolve\GoogleAuthBundle\Security\Register\GoogleRegisterManager;
+use Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationInterface;
+use Xsolve\GoogleAuthBundle\Security\Authorization\GoogleAuthorizationInterface;
+use Xsolve\GoogleAuthBundle\Security\Register\GoogleRegisterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 interface LoginManagerInterface
 {
-    public function __construct(GoogleAuthenticationManager $googleAuthenticationManager,
-                                GoogleAuthorizationManager  $googleAuthorizationManager,
-                                GoogleRegisterManager       $googleRegisterManager ,
-                                FOSUserLoginService         $FOSUserLoginService );
-
     public function loginUser(Request $request);
 }

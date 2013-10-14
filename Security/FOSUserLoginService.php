@@ -2,11 +2,12 @@
 
 namespace Xsolve\GoogleAuthBundle\Security;
 
-use FOS\UserBundle\Doctrine\UserManager;
-use FOS\UserBundle\Security\LoginManager;
+use FOS\UserBundle\Model\UserManagerInterface;
+use FOS\UserBundle\Security\LoginManagerInterface as FOSLoginManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Xsolve\GoogleAuthBundle\Security\UserLoginServiceInterface;
 
-class FOSUserLoginService
+class FOSUserLoginService implements UserLoginServiceInterface
 {
 
     /**
@@ -24,7 +25,7 @@ class FOSUserLoginService
      */
     protected $providerKey;
 
-    public function __construct(UserManager $userManager, LoginManager $loginManager, $providerKey)
+    public function __construct(UserManagerInterface $userManager, FOSLoginManagerInterface $loginManager, $providerKey)
     {
         $this->userManager  = $userManager;
         $this->loginManager = $loginManager;

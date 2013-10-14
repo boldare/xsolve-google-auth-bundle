@@ -3,12 +3,12 @@
 namespace Xsolve\GoogleAuthBundle\Security\Register;
 
 use Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject;
-use FOS\UserBundle\Doctrine\UserManager;
+use FOS\UserBundle\Model\UserManagerInterface;
+use FOS\UserBundle\Model\UserInterface;
 
 interface GoogleRegisterInterface
 {
+    public function isUserAllowedToRegisterAutomatically(UserInterface $user);
 
-    public function __construct(ConfigurationValueObject $configurationValueObject, UserManager $userManager);
-
-    public function isUserAllowedToRegisterAutomatically($user);
+    public function registerUser(UserInterface $user);
 }
