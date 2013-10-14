@@ -3,16 +3,15 @@
 namespace Xsolve\GoogleAuthBundle\Security\Authentication;
 
 use Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationInterface;
-use GoogleApi\Client;
 use Symfony\Component\HttpFoundation\Request;
 use GoogleApi\Contrib\apiOauth2Service;
 use Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException;
-use Xsolve\GoogleAuthBundle\Builder\GoogleClientBuilder;
-use FOS\UserBundle\Doctrine\UserManager;
+use Xsolve\GoogleAuthBundle\Builder\ClientBuilderInterface;
 use Xsolve\GoogleAuthBundle\Builder\FOSUserBuilder;
 use Exception;
+use FOS\UserBundle\Model\UserManagerInterface;
 
-class GoogleAuthenticationManager implements GoogleAuthenticationInterface
+class GoogleAuthenticator implements GoogleAuthenticationInterface
 {
 
     /**
@@ -25,7 +24,7 @@ class GoogleAuthenticationManager implements GoogleAuthenticationInterface
      */
     protected $userManager;
 
-    public function __construct(GoogleClientBuilder $googleClientBuilder, UserManager $userManager)
+    public function __construct(ClientBuilderInterface $googleClientBuilder, UserManagerInterface $userManager)
     {
         $this->client      = $googleClientBuilder->getClient();
         $this->userManager = $userManager;

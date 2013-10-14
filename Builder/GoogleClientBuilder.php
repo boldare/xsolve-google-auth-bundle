@@ -4,8 +4,9 @@ namespace Xsolve\GoogleAuthBundle\Builder;
 
 use GoogleApi\Client;
 use Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject;
+use Xsolve\GoogleAuthBundle\Builder\ClientBuilderInterface;
 
-class GoogleClientBuilder
+class GoogleClientBuilder implements ClientBuilderInterface
 {
     /**
      * @var \GoogleApi\Client

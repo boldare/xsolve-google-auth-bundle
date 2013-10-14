@@ -2,7 +2,6 @@
 
 namespace Xsolve\GoogleAuthBundle\ValueObject;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\DependencyInjection\Container;
 
 class ConfigurationValueObject
