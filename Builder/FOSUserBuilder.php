@@ -25,7 +25,7 @@ class FOSUserBuilder implements UserBuilderInterface
      * @param array $googleAuthUser
      * @return \FOS\UserBundle\Model\UserInterface
      */
-    public function build($googleAuthUser)
+    public function build(array $googleAuthUser)
     {
         $user = $this->userManager->createUser();
 

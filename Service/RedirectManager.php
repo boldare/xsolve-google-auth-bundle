@@ -10,7 +10,6 @@ use Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationInterfac
 
 class RedirectManager
 {
-
     /**
      * @var \Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject
      */

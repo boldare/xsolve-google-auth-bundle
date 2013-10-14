@@ -8,13 +8,10 @@ use FOS\UserBundle\Model\UserInterface;
 
 interface UserBuilderInterface
 {
-
-    public function __construct(UserManagerInterface $userManager);
-
     /**
      * @param array $googleAuthUser
      * @return \FOS\UserBundle\Model\UserInterface
      */
-    public function build($googleAuthUser);
+    public function build(array $googleAuthUser);
 
 }

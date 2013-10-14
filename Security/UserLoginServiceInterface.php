@@ -8,8 +8,5 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 interface UserLoginServiceInterface
 {
-
-    public function __construct(UserManagerInterface $userManager, FOSLoginManagerInterface $loginManager, $providerKey);
-
     public function login(UserInterface $user);
 }

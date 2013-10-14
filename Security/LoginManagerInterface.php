@@ -10,11 +10,5 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 interface LoginManagerInterface
 {
-    public function __construct(GoogleAuthenticationInterface $authenticator,
-                                GoogleAuthorizationInterface  $authorizer,
-                                GoogleRegisterInterface       $registerManager ,
-                                UserLoginServiceInterface     $userLoginService,
-                                LoggerInterface               $logger);
-
     public function loginUser(Request $request);
 }

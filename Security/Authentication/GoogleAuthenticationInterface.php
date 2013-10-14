@@ -8,9 +8,6 @@ use FOS\UserBundle\Model\UserManagerInterface;
 
 interface GoogleAuthenticationInterface
 {
-
-    public function __construct(ClientBuilderInterface $googleClientBuilder, UserManagerInterface $userManager);
-
     /**
      * @return \FOS\UserBundle\Model\UserInterface
      * @throws \Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException
