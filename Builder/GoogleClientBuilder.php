@@ -2,9 +2,9 @@
 
 namespace Xsolve\GoogleAuthBundle\Builder;
 
-use GoogleApi\Client;
 use Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject;
 use Xsolve\GoogleAuthBundle\Builder\ClientBuilderInterface;
+use Google_Client;
 
 class GoogleClientBuilder implements ClientBuilderInterface
 {
@@ -32,7 +32,7 @@ class GoogleClientBuilder implements ClientBuilderInterface
      */
     protected function build(ConfigurationValueObject $configuration)
     {
-        $client = new Client();
+        $client = new Google_Client();
 
         $client->setApplicationName($configuration->getName());
         $client->setClientId($configuration->getClientId());

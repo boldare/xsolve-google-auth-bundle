@@ -3,11 +3,31 @@
     "description": "XSolve Google Auth Bundle to provide signing in to FOSUserBundle with Google Auth",
     "license": "MIT",
     "autoload": {
-        "psr-0": { "Xsolve\\GoogleAuthBundle": "" }
+        "psr-0": {
+            "Xsolve\\GoogleAuthBundle": ""
+        },
+        "classmap": ["vendor/google/google-api-php-client/src"]
     },
     "require": {
         "friendsofsymfony/user-bundle": "v1.3.3",
-        "evert/google-api-php-client": "dev-master"
+        "google/google-api-php-client": "0.6.*"
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "google/google-api-php-client",
+                "version": "0.6.0",
+                "dist": {
+                    "url": "http://google-api-php-client.googlecode.com/files/google-api-php-client-0.6.0.tar.gz",
+                    "type": "tar"
+                },
+                "autoload": {
+                    "classmap": ["src/"]
+                }
+            }
+        }
+
+    ],
     "target-dir" : "Xsolve/GoogleAuthBundle"
 }
