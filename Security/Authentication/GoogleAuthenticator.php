@@ -4,12 +4,12 @@ namespace Xsolve\GoogleAuthBundle\Security\Authentication;
 
 use Xsolve\GoogleAuthBundle\Security\Authentication\GoogleAuthenticationInterface;
 use Symfony\Component\HttpFoundation\Request;
-use GoogleApi\Contrib\apiOauth2Service;
 use Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException;
 use Xsolve\GoogleAuthBundle\Builder\ClientBuilderInterface;
 use Xsolve\GoogleAuthBundle\Builder\FOSUserBuilder;
 use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Google_Oauth2Service;
 
 class GoogleAuthenticator implements GoogleAuthenticationInterface
 {
@@ -42,7 +42,7 @@ class GoogleAuthenticator implements GoogleAuthenticationInterface
         }
 
         $fosUserBuilder = new FOSUserBuilder($this->userManager);
-        $oauth2         = new apiOauth2Service($this->getClient());
+        $oauth2         = new Google_Oauth2Service($this->getClient());
 
         try {
             $this->getClient()->authenticate();
