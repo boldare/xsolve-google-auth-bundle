@@ -5,8 +5,7 @@
     "autoload": {
         "psr-0": {
             "Xsolve\\GoogleAuthBundle": ""
-        },
-        "classmap": ["vendor/google/google-api-php-client/src"]
+        }
     },
     "require": {
         "friendsofsymfony/user-bundle": "v1.3.3",
