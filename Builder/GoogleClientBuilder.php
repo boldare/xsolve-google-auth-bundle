@@ -2,14 +2,13 @@
 
 namespace Xsolve\GoogleAuthBundle\Builder;
 
-use Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject;
 use Xsolve\GoogleAuthBundle\Builder\ClientBuilderInterface;
-use Google_Client;
+use Xsolve\GoogleAuthBundle\ValueObject\ConfigurationValueObject;
 
 class GoogleClientBuilder implements ClientBuilderInterface
 {
     /**
-     * @var \GoogleApi\Client
+     * @var \Google_Client
      */
     protected $client;
 
@@ -21,6 +20,9 @@ class GoogleClientBuilder implements ClientBuilderInterface
         $this->client = $this->build($configuration);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getClient()
     {
         return $this->client;
@@ -28,11 +30,11 @@ class GoogleClientBuilder implements ClientBuilderInterface
 
     /**
      * @param ConfigurationValueObject $configuration
-     * @return Client
+     * @return \Google_Client
      */
     protected function build(ConfigurationValueObject $configuration)
     {
-        $client = new Google_Client();
+        $client = new \Google_Client();
 
         $client->setApplicationName($configuration->getName());
         $client->setClientId($configuration->getClientId());

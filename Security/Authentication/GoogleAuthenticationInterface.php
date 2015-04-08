@@ -2,16 +2,21 @@
 
 namespace Xsolve\GoogleAuthBundle\Security\Authentication;
 
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException;
 
 interface GoogleAuthenticationInterface
 {
     /**
-     * @return \FOS\UserBundle\Model\UserInterface
-     * @throws \Xsolve\GoogleAuthBundle\Exception\NotAuthorizedException
+     * @param Request $request
+     * @return UserInterface
+     * @throws NotAuthorizedException
      */
     public function authenticateUser(Request $request);
 
+    /**
+     * @return string
+     */
     public function getAuthUrl();
-
 }

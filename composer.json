@@ -9,24 +9,7 @@
     },
     "require": {
         "friendsofsymfony/user-bundle": "v1.3.3",
-        "google/google-api-php-client": "0.6.*"
+        "google/apiclient": "~1.0.0@beta"
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "google/google-api-php-client",
-                "version": "0.6.0",
-                "dist": {
-                    "url": "http://google-api-php-client.googlecode.com/files/google-api-php-client-0.6.0.tar.gz",
-                    "type": "tar"
-                },
-                "autoload": {
-                    "classmap": ["src/"]
-                }
-            }
-        }
-
-    ],
     "target-dir" : "Xsolve/GoogleAuthBundle"
 }
