@@ -51,7 +51,7 @@ class GoogleAuthenticator implements GoogleAuthenticationInterface
             throw new NotAuthorizedException(401, "XSolve Google Auth couldn't authorize user", $e);
         }
 
-        return $fosUserBuilder->build($oauth2->userinfo->get());
+        return $fosUserBuilder->build((array) $oauth2->userinfo->get()->toSimpleObject());
     }
 
     /**
